@@ -565,7 +565,7 @@ namespace Hotel
             botao.FlatAppearance.MouseDownBackColor = ColorTranslator.FromHtml(corHex);
 
             botao.MouseDown += btn_Down;
-            botao.MouseUp += btn_Up;
+            botao.MouseUp += btn_Up; 
         }
 
 
@@ -583,6 +583,9 @@ namespace Hotel
             botao.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#e8175d");
         }
 
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

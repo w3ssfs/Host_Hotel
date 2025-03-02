@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,11 @@ namespace Hotel
 {
     public partial class FrmLogin : Form
     {
+
+        ClassData db = new ClassData();
+        MySqlCommand cmd = new MySqlCommand();
+        string SqlString;
+
         public FrmLogin()
         {
             InitializeComponent();
@@ -55,15 +62,62 @@ namespace Hotel
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
-            FrmMenu frmMenu = new FrmMenu();
-            frmMenu.ShowDialog();
+            string login = txtLogin.Text.Replace(" ", "").Trim();
+            string pass = txtPass.Text.Trim();
 
-            this.Close();
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(pass))
+            {
+                MessageBox.Show("Digite o LOGIN!", "Campos Obrigatório", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtLogin.Focus();
+                return;
+            }
+
+            try
+            {
+                db.openConn();
+                SqlString = "SELECT name_login, pass_login FROM login WHERE name_login=@name_login and pass_login=@pass_login";
+                cmd = new MySqlCommand(SqlString, db.GetConnection());
+
+                cmd.Parameters.AddWithValue("@name_login", login);
+                cmd.Parameters.AddWithValue("@pass_login", pass);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows) 
+                    {
+                        FrmMenu frmMenu = new FrmMenu();                        
+                        frmMenu.ShowDialog();
+                        
+                        txtLogin.Clear();
+                        txtPass.Clear();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Usuário ou Senha Inválidos!", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        txtPass.Clear();
+                    }
+                }
+
+                db.closeConn();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao Abrir Conexão" + ex.Message);
+            }
+
+
+
         }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSair_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

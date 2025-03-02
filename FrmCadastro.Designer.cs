@@ -108,6 +108,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(579, 30);
             this.txtName.TabIndex = 4;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // txtAddress
             // 
@@ -319,7 +320,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(23)))), ((int)(((byte)(93)))));
-            this.label4.Location = new System.Drawing.Point(424, 22);
+            this.label4.Location = new System.Drawing.Point(423, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(374, 77);
             this.label4.TabIndex = 31;
@@ -330,7 +331,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(23)))), ((int)(((byte)(93)))));
-            this.label6.Location = new System.Drawing.Point(527, 105);
+            this.label6.Location = new System.Drawing.Point(526, 92);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(172, 23);
             this.label6.TabIndex = 32;
@@ -340,6 +341,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
             this.ClientSize = new System.Drawing.Size(1168, 710);
             this.Controls.Add(this.btnDelete);
@@ -369,7 +371,7 @@
             this.MinimumSize = new System.Drawing.Size(1184, 749);
             this.Name = "FrmCadastro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Principal";
+            this.Text = "Cadastro Clientes";
             this.Load += new System.EventHandler(this.FrmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridClient)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

@@ -33,5 +33,16 @@ namespace Hotel
         {
             
         }
+
+        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Produtos_Click(object sender, EventArgs e)
+        {
+            FrmSuites frmSuites = new FrmSuites();
+            frmSuites.ShowDialog();
+        }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCadastroUser));
             this.txtSenha = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtLogin = new System.Windows.Forms.TextBox();
@@ -145,7 +146,7 @@
             this.gridClient.ReadOnly = true;
             this.gridClient.Size = new System.Drawing.Size(371, 174);
             this.gridClient.TabIndex = 23;
-            this.gridClient.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridClient_CellContentClick);
+            this.gridClient.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridClient_CellClick);
             // 
             // BtnExcluir
             // 
@@ -160,6 +161,7 @@
             this.BtnExcluir.TabIndex = 24;
             this.BtnExcluir.Text = "Excluir";
             this.BtnExcluir.UseVisualStyleBackColor = true;
+            this.BtnExcluir.Click += new System.EventHandler(this.BtnExcluir_Click);
             // 
             // btnPromo
             // 
@@ -174,6 +176,7 @@
             this.btnPromo.TabIndex = 25;
             this.btnPromo.Text = "Supervisor";
             this.btnPromo.UseVisualStyleBackColor = true;
+            this.btnPromo.Click += new System.EventHandler(this.btnPromo_Click);
             // 
             // btnCola
             // 
@@ -188,6 +191,7 @@
             this.btnCola.TabIndex = 26;
             this.btnCola.Text = "Colaborador";
             this.btnCola.UseVisualStyleBackColor = true;
+            this.btnCola.Click += new System.EventHandler(this.btnCola_Click);
             // 
             // btnCancel
             // 
@@ -232,6 +236,7 @@
             this.btnAlter.TabIndex = 29;
             this.btnAlter.Text = "Alterar";
             this.btnAlter.UseVisualStyleBackColor = true;
+            this.btnAlter.Click += new System.EventHandler(this.btnAlter_Click);
             // 
             // label6
             // 
@@ -278,12 +283,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.label4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(585, 669);
             this.MinimumSize = new System.Drawing.Size(585, 669);
             this.Name = "FrmCadastroUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FrmCadastroUser";
+            this.Text = "Cadastro de Usuários";
             this.Load += new System.EventHandler(this.FrmCadastroUser_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridClient)).EndInit();
             this.ResumeLayout(false);

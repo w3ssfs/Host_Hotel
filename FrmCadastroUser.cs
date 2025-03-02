@@ -25,7 +25,7 @@ namespace Hotel
 
         string sqlString;
         string loginAntigo = "";
-        string idLogin;
+        string idLogin, role;
 
         public FrmCadastroUser()
         {
@@ -101,32 +101,7 @@ namespace Hotel
             disableBtn();
         }
 
-
-
-        private void gridClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            if (e.RowIndex > -1)
-            {
-                enebBtn();
-
-                if (e.RowIndex >= 0)
-                {
-                    DataGridViewRow row = gridClient.Rows[e.RowIndex];
-
-                    if (row.Cells[0].Value != null)
-                    {
-                        idLogin = row.Cells[0].Value.ToString();
-                        txtLogin.Text = row.Cells[1].Value.ToString();
-                    }
-
-                }
-
-            }else return;
-
-        }
-
-
+              
         private void FindName(string value)
         {
             try
@@ -228,6 +203,16 @@ namespace Hotel
             MessageBox.Show("Usuário Criado !", "Cadastro Usuário", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void UpdateLogin(string login)
+        {
+            db.openConn();
+            sqlString = "UPDATE login SET name_login=@name_login WHERE id_login=@id_login";
+            cmd = new MySqlCommand(sqlString, db.GetConnection());
+            cmd.Parameters.AddWithValue("@name_login", login);
+            cmd.Parameters.AddWithValue("@id_login", idLogin);
+            cmd.ExecuteNonQuery();
+            db.closeConn();
+        }
 
         private void disableBtn()
         {
@@ -300,6 +285,154 @@ namespace Hotel
             catch (Exception ex)
             {
                 MessageBox.Show("Erro ao Buscar cliente! ", ex.Message);
+            }
+        }
+
+        private void btnAlter_Click(object sender, EventArgs e)
+        {
+            string login = txtLogin.Text.Replace(" ", "").Trim();
+           
+            if (string.IsNullOrWhiteSpace(login))
+            {
+                MessageBox.Show("Digite o LOGIN!", "Campo Obrigatório", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                txtLogin.Focus();
+                return;
+            }
+
+            if (login != loginAntigo)
+            {
+                if (LoginCadastrado(login))
+                {
+                    MessageBox.Show("LOGIN já Cadastrado!", "Campo Obrigatório", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    txtLogin.Clear();
+                    txtLogin.Focus();
+                    return;
+                }
+            }
+            
+            
+                UpdateLogin(login);
+                cleanFild();
+                disableBtn();
+                GridList();
+                MessageBox.Show("Usuário atualizado!", "Alteração Concluida", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             
+
+        }
+
+        private void gridClient_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex > -1)
+            {
+                enebBtn();
+
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = gridClient.Rows[e.RowIndex];
+
+                    if (row.Cells[0].Value != null)
+                    {
+                        idLogin = row.Cells[0].Value.ToString();
+                        txtLogin.Text = row.Cells[1].Value.ToString();
+                        role = row.Cells[3].Value.ToString();
+
+                        if (role == "Colaborador")
+                        {
+                            enebBtn();
+                            btnCola.Enabled = false;
+                        }else if (role == "Supervisor")
+                        {
+                            enebBtn();
+                            btnPromo.Enabled = false;
+                        }
+
+
+                    }
+
+                }
+
+            }
+            else return;
+        }
+
+        private void BtnExcluir_Click(object sender, EventArgs e)
+        {
+            var quest = MessageBox.Show("Confirma a Exclusão?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(quest == DialogResult.Yes)
+            {
+                try
+                {
+                    db.openConn();
+                    sqlString = "DELETE FROM login WHERE id_login=@id_login";
+                    MySqlCommand cmd = new MySqlCommand(sqlString, db.GetConnection());
+
+                    cmd.Parameters.AddWithValue("@id_login", idLogin);
+                    cmd.ExecuteNonQuery();
+                    db.closeConn();
+
+                    GridList();
+                    cleanFild();
+                    disableBtn();
+
+                    MessageBox.Show("Usuário Excluido com Sucesso!");
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao excluir usuário " + ex.Message);
+                }
+            }
+        }
+
+        private void btnCola_Click(object sender, EventArgs e)
+        {
+            string roles = "Colaborador";
+            try
+            {
+                db.openConn();
+                sqlString = "UPDATE login SET role_login=@role WHERE id_login=@id_login";
+                MySqlCommand cmd = new MySqlCommand(sqlString, db.GetConnection());
+
+                cmd.Parameters.AddWithValue("@role", roles);
+                cmd.Parameters.AddWithValue("@id_login", idLogin);
+
+                cmd.ExecuteNonQuery();
+                db.closeConn();
+
+                GridList();
+                cleanFild();
+                disableBtn();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao Promover usuário " + ex.Message);
+            }
+        }
+
+        private void btnPromo_Click(object sender, EventArgs e)
+        {
+            string roles = "Supervisor";
+            try
+            { 
+                db.openConn();
+                sqlString = "UPDATE login SET role_login=@role WHERE id_login=@id_login";
+                MySqlCommand cmd = new MySqlCommand(sqlString, db.GetConnection());
+
+                cmd.Parameters.AddWithValue("@role", roles);
+                cmd.Parameters.AddWithValue("@id_login", idLogin);
+
+                cmd.ExecuteNonQuery();
+                db.closeConn();
+
+                GridList();
+                cleanFild();
+                disableBtn();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao Promover usuário " + ex.Message);
             }
         }
     }
